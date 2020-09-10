@@ -1,0 +1,33 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+// @import 'variables';
+
+// Bootstrap
+// @import '~bootstrap/scss/bootstrap';
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+// rgb(56, 178, 172)
+
+html {
+  scroll-behavior: smooth;
+}
+
+.login_page_bg {
+	background: url('../img/manhattan.jpg') center / cover;
+}
+
+.register_page_bg {
+	background: url('../img/manhattan.jpg') center / cover;
+}
+
+.default-layout {
+  // background-color: #edf2f7;
+}
+
