@@ -1,3 +1,4 @@
+import store from './store'
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -34,26 +35,51 @@ Vue.component('create-channel-modal', require('./components/CreateChannelModal.v
 
 const app = new Vue({
     el: '#app',
+    store,
     data: {
-      messages: []
+      messages: [],
+      channels: [],
+      loading: false,
+      currentChannelObj: {},
     },
-    created() {      
+    computed: {
+      currentChannel() {
+        const obj = this.currentChannelObj
+        return obj
+      }
+    },
+    created() {
+      this.loading = true
+      this.fetchCurrentChannel()
+      this.fetchChannels()
       this.fetchMessages()
 
-      Echo.private('general')
-        .listen('MessageSent', e => {
-          this.messages.push({
-            message: e.message.message,
-            user: e.user
+      console.log(this.currentChannel.id)
+      
+      // if (this.currentChannel) {
+        Echo.join(`channel.${this.currentChannel.id}`)
+          .listen('MessageSent', e => {
+            this.messages.push({
+              message: e.message.message,
+              user: e.user
+            })
           })
-        })
+      // }
     },
     methods: {
       async fetchMessages() {
-        const response = await axios.get('/messages')
-        this.messages = response.data
-        
+        // const channelId = this.currentChannel.id // find out why this does not work
+
+        try {
+          const response = await axios.get(`messages`)
+          this.messages = response.data
+          this.loading = false
+        } catch (error) {
+          console.log(error)
+        }
+
         let listOfMessages = document.querySelector('.messages-list')
+
         setTimeout(() => {
           listOfMessages.scrollTo('0', listOfMessages.scrollHeight)
         }, 100)
@@ -73,9 +99,32 @@ const app = new Vue({
       closeModal() {
         const containerElement = document.querySelector('#create_channel_container')
         containerElement.classList.add('hidden')
-      }, 
-      scrollToEnd(element) {
-        element.scrollTo('0', element.scrollHeight)
+      },
+      async fetchChannels() {
+        const response = await axios.get('/api/channels')
+        this.channels = response.data
+      },
+      async fetchCurrentChannel() {
+        const response = await axios.get('currentChannel')
+        this.currentChannelObj = response.data
+      },
+      async createChannel(channel) {
+        try {
+          const response = await axios.post('createChannel', channel)
+          this.fetchChannels()
+          this.fetchCurrentChannel()
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async joinChannel(channel) {
+        try {
+          const response = axios.get(`joinChannel/${channel.channel_id}/${channel.user_id}`)
+          this.fetchCurrentChannel()
+          this.fetchMessages()
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
 });

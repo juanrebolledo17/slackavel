@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Message;
 use App\User;
+use App\Channel;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -31,14 +32,22 @@ class MessageSent
     public $message;
 
     /**
+         * Channel details
+         *
+         * @var Channel
+         */
+    public $channel;
+
+    /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, Message $message)
+    public function __construct(User $user, Message $message, Channel $channel)
     {
         $this->user = $user;
         $this->message = $message;
+        $this->channel = $channel;
     }
 
     /**
@@ -48,6 +57,6 @@ class MessageSent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('general');
+        return new PresenceChannel('channel.' . $channel->id);
     }
 }

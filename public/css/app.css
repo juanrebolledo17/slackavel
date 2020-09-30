@@ -22246,11 +22246,11 @@ html {
 }
 
 .login_page_bg {
-  background: url("../img/manhattan.jpg") center/cover;
+  background: url("../img/sunset.jpg") center/cover;
 }
 
 .register_page_bg {
-  background: url("../img/manhattan.jpg") center/cover;
+  background: url("../img/manhattan-336708.jpg") center/cover;
 }
 
 @media (min-width: 640px){

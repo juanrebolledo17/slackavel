@@ -16,8 +16,10 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
+            $table->string('send_by');
             $table->text('message');
             $table->time('send_at');
+            $table->foreignId('channel_id')->constrained('channels');
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@
         <button class="text-3xl text-gray-400 border-r-2 border-gray-500 p-2" type="submit" @click.prevent="sendMessage">
             <svg class="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
         </button>
-        <input type="text" class="w-full px-4" :placeholder="`Message #${currentChannel}`" v-model="newMessage"/>
+        <input type="text" class="w-full px-4 outline-none" :placeholder="`Message #${channel.channel_name}`" v-model="newMessage"/>
       </div>
     </form>
   </div>
@@ -13,12 +13,11 @@
 
 <script>
 export default {
-  props: ['user'],
+  props: ['user', 'channel'],
   data() {
     return {
-      currentChannel: 'general',
       newMessage: '',
-      send_at: null, 
+      send_at: null
     }
   },
   methods: {
@@ -27,8 +26,10 @@ export default {
 
       this.$emit('messagesend', {
         user: this.user,
+        send_by: this.user.username,
         message: this.newMessage,
-        send_at: this.send_at
+        send_at: this.send_at,
+        channel_id: this.channel.id
       })
 
       this.newMessage = ''

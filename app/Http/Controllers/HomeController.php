@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
+use App\ChannelUser;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -22,9 +26,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = User::all();
-        return view('home', compact('users'));
+        $user = Auth::user();
+        $currentChannelInfo = ChannelUser::where('user_id','=' , $user->id)->orderBy('id', 'desc')->first();
+        $channel = Channel::find($currentChannelInfo->channel_id);
+
+        return view('home', compact('users', 'channel'));
     }
 }

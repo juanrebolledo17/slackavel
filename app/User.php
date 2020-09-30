@@ -41,15 +41,17 @@ class User extends Authenticatable
 
     /**
      * The messages that belong to the user.
-    */
+     *
+     */
     public function messages() {
         return $this->hasMany(Message::class);
     }
 
     /**
      * The channels that belong to the user.
-    */
+     *
+     */
     public function channels() {
-        return $this->belongsToMany('App\Channel');
+        return $this->belongsToMany('App\Channel', 'channel_users');
     }
 }

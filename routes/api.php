@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Channel as ChannelResource;
 use App\User;
+use App\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/users', function (Request $request) {
   return UserResource::collection(User::all());
+});
+
+Route::get('/channels', function (Request $request) {
+  return ChannelResource::collection(Channel::all());
 });

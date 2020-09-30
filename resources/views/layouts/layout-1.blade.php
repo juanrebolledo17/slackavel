@@ -17,8 +17,10 @@
     <div class="h-screen flex items-center justify-center w-full flex-wrap">
       <div class="w-full md:w-1/2 lg:w-1/3 h-screen flex items-center justify-center flex-col">
         @yield('content')
+      </div> 
+      <div class="md:w-1/2 lg:w-2/3 sm:h-screen h-full w-full mt-0">
+        <img src="./img/city-sleeps.jpg" alt="" class="object-center object-cover h-full w-full">
       </div>
-      <div class="md:w-1/2 lg:w-2/3 sm:h-screen h-20 w-full login_page_bg mt-0 sm:mt-0"></div>  
     </div>
   </div>
 </body>

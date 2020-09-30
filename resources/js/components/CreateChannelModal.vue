@@ -5,7 +5,7 @@
         Create Channel
       </h1>
       <hr class="mb-4">
-      <form @submit.prevent="createChannel">
+      <form @submit.prevent="emitCreateChannel">
         <div class="flex flex-col mb-4">
           <label for="channel-name" class="mb-2">
             Channel name
@@ -33,6 +33,7 @@
 
 <script>
 export default {
+  props: ['user_id'],
   data() {
     return {
       channelName: '',
@@ -40,8 +41,14 @@ export default {
     }
   },
   methods: {
-    createChannel() {
-      console.log('create channel')
+    async emitCreateChannel() {
+      const { channelName, channelDescription } = this
+
+      this.$emit('createchannelevent', {
+        channel_name: channelName,
+        channel_description: channelDescription,
+        user_id: this.user_id 
+      })
 
       this.channelName = ''
       this.channelDescription = ''

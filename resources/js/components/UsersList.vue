@@ -23,7 +23,7 @@ export default {
   methods: {
     async fetchUsers() {
       const response = await axios.get('/api/users')
-      this.users = response.data.data
+      this.users = response.data
     }
   }
 }

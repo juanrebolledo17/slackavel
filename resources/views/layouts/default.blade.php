@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="h-screen default-layout">
+<body class="h-screen default-layout overflow-y-hidden">
   <div id="app" class="h-full">
     @yield('content')  
   </div>

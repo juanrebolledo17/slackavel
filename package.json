@@ -28,6 +28,7 @@
         "browser-sync": "^2.26.12",
         "laravel-echo": "^1.8.1",
         "pusher-js": "^7.0.0",
-        "tailwindcss": "^1.7.6"
+        "tailwindcss": "^1.7.6",
+        "vuex": "^3.5.1"
     }
 }

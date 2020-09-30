@@ -26,9 +26,17 @@ Route::get('messages', 'ChatsController@fetchMessages');
 
 Route::post('messages', 'ChatsController@sendMessage');
 
-Route::get('/welcome', function () {
-  return view('welcome');
-})->name('welcome');
+Route::get('currentChannel', 'ChannelController@currentChannel');
+
+Route::post('createChannel', 'ChannelController@createChannel');
+
+// Route::get('joinChannel/{id}', 'ChannelController@handleJoinChannel');
+
+Route::get('joinChannel/{channelId}/{userId}', 'ChannelController@joinChannel');
+
+// Route::get('/welcome', function () {
+//   return view('welcome');
+// })->name('welcome');
 
 // Route::get('/test', function (Request $request) {
 //   return $request->user();
