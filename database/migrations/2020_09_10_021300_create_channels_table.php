@@ -17,6 +17,7 @@ class CreateChannelsTable extends Migration
             $table->id();
             $table->string('channel_name');
             $table->text('channel_description');
+             $table->foreignId('creator_id')->constrained('users');
             $table->timestamps();
         });
     }

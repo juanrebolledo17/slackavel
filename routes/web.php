@@ -30,6 +30,10 @@ Route::get('currentChannel', 'ChannelController@currentChannel');
 
 Route::post('createChannel', 'ChannelController@createChannel');
 
+Route::get('profile', 'ProfileController@profile');
+
+Route::get('profile/update', 'ProfileController@update');
+
 // Route::get('joinChannel/{id}', 'ChannelController@handleJoinChannel');
 
 Route::get('joinChannel/{channelId}/{userId}', 'ChannelController@joinChannel');

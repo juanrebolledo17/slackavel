@@ -18,4 +18,4 @@ mix.js('resources/js/app.js', 'public/js')
         processCssUrls: false,
         postCss: [ tailwindcss('./tailwind.config.js') ],
     })
-    //.browserSync('http://localhost:8000')
+    .browserSync('http://localhost:8000')

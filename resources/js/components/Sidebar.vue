@@ -25,7 +25,7 @@
         </div>
       </div>
       <!-- <channels-list :channels="channels"></channels-list> -->
-      <div class="flex items-center justify-start mb-3 px-4" v-for="channel in channels">
+      <div class="flex items-center justify-start mb-3 px-4" v-for="channel in channels" :key="channel.id">
         <button 
           class="text-white hover:bg-teal-400 w-full text-left outline-none"
           @click="emitJoinEvent(channel.id)"
@@ -50,10 +50,8 @@
     <div>
       <div class="px-4 mb-2 text-white flex justify-between items-center">
         <div class="opacity-75">Profile settings</div>
-        <div class="cursor-pointer">
-          <svg class="fill-current h-4 w-4 opacity-50 hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-          </svg>
+        <div class="cursor-pointer" @click="goToProfile">
+          <font-awesome-icon :icon="faCog" size="1x" class="opacity-50 hover:opacity-100" />
         </div>
       </div>
     </div>
@@ -61,13 +59,16 @@
 </template>
 
 <script>
-// import ChannelsList from './ChannelsList.vue'
+import ChannelsList from './ChannelsList.vue'
 import UsersList from './UsersList.vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faCog } from '@fortawesome/free-solid-svg-icons'
 
 export default {
   components: {
-    // ChannelsList,
+    ChannelsList,
     UsersList,
+    FontAwesomeIcon
   },
   props: {
     user: {
@@ -81,15 +82,23 @@ export default {
       type: Array
     }
   },
+  data() {
+    return {
+      faCog: faCog
+    }
+  },
   methods: {
     openModal() {
       this.$emit('openmodalevent')
     },
     emitJoinEvent(channelId) {
       this.$emit('joinchannelevent', {
-        channel_id: channelId,
-        user_id: this.user.id
+        channelId,
+        userId: this.user.id
       })
+    },
+    goToProfile() {
+      location.href = `${location.origin}/profile`
     }
   }
 }

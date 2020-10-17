@@ -54,4 +54,12 @@ class User extends Authenticatable
     public function channels() {
         return $this->belongsToMany('App\Channel', 'channel_users');
     }
+
+    /**
+     * The channels created by the user.
+     *
+     */
+    public function createdChannels() {
+        return $this->hasMany(Channel::class);
+    }
 }

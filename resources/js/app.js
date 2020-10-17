@@ -27,6 +27,11 @@ Vue.component('message-list', require('./components/MessageList.vue').default);
 Vue.component('message-form', require('./components/MessageForm.vue').default);
 Vue.component('create-channel-modal', require('./components/CreateChannelModal.vue').default);
 
+// profile components
+Vue.component('profile-sidebar', require('./components/profile/ProfileSidebar.vue').default);
+Vue.component('account', require('./components/profile/Account.vue').default);
+Vue.component('channels', require('./components/profile/Channels.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -40,13 +45,9 @@ const app = new Vue({
       messages: [],
       channels: [],
       loading: false,
-      currentChannelObj: {},
-    },
-    computed: {
-      currentChannel() {
-        const obj = this.currentChannelObj
-        return obj
-      }
+      currentChannel: {},
+      user: {},
+      profileTab: 'channels',
     },
     created() {
       this.loading = true
@@ -54,22 +55,14 @@ const app = new Vue({
       this.fetchChannels()
       this.fetchMessages()
 
-      console.log(this.currentChannel.id)
-      
-      // if (this.currentChannel) {
-        Echo.join(`channel.${this.currentChannel.id}`)
-          .listen('MessageSent', e => {
-            this.messages.push({
-              message: e.message.message,
-              user: e.user
-            })
-          })
-      // }
+      // this.$store.dispatch('fetchMessages')
+      // this.$store.dispatch('fetchCurrentChannel')
+      // this.$store.dispatch('fetchChannels')
+      // this.$store.dispatch('fetchUser')
+      // this.$store.dispatch('fetchUsers')
     },
     methods: {
-      async fetchMessages() {
-        // const channelId = this.currentChannel.id // find out why this does not work
-
+      async fetchMessages() {    
         try {
           const response = await axios.get(`messages`)
           this.messages = response.data
@@ -106,7 +99,7 @@ const app = new Vue({
       },
       async fetchCurrentChannel() {
         const response = await axios.get('currentChannel')
-        this.currentChannelObj = response.data
+        this.currentChannel = response.data
       },
       async createChannel(channel) {
         try {
@@ -119,12 +112,23 @@ const app = new Vue({
       },
       async joinChannel(channel) {
         try {
-          const response = axios.get(`joinChannel/${channel.channel_id}/${channel.user_id}`)
+          const response = axios.get(`joinChannel/${channel.channelId}/${channel.userId}`)
           this.fetchCurrentChannel()
           this.fetchMessages()
+
+          Echo.join(`channel.${channel.channelId}`)
+            .listen('MessageSent', e => {
+              this.messages.push({
+                message: e.message.message,
+                user: e.user
+              })
+            })
         } catch (error) {
           console.log(error)
         }
+      },
+      changeTab(to) {
+        this.profileTab = to
       }
     },
 });

@@ -23,4 +23,11 @@ class Channel extends Model
     public function messages() {
       return $this->hasMany('App\Message');
     }
+
+    /**
+     * The user owner of the channel.
+    */
+    public function creator() {
+      return $this->belongsTo('App\User');
+    }
 }
